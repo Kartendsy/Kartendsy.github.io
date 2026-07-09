@@ -12,7 +12,8 @@
         </style>
     </head>
     <body
-        x-data="{ darkMode: false, activeTab: 'proyek' }"
+       x-data="{ darkMode: localStorage.getItem('dark') === 'true', activeTab: 'proyek' }"
+        x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
         :class="darkMode ? 'bg-zinc-950 text-zinc-100' : 'bg-zinc-50 text-zinc-900'"
         class="antialiased selection:bg-yellow-300 selection:text-black transition-colors duration-300"
     >
