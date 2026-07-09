@@ -1,152 +1,186 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Kartendsy | Portfolio</title>
-        <script src="https://cdn.tailwindcss.com"></script>
-        <link
-            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap"
-            rel="stylesheet"
-        />
+        <title>Personal Space | Kartendsy</title>
+        <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <style>
-            body {
-                font-family: "JetBrains Mono", monospace;
-                background-color: #0f111a;
-            }
-            .terminal-border {
-                border: 1px solid #30363d;
-            }
-            .accent {
-                color: #82aaff;
-            }
-            .dim {
-                color: #717cb4;
+            [x-cloak] {
+                display: none !important;
             }
         </style>
     </head>
-    <body class="text-gray-300 p-4 md:p-12">
-        <div class="max-w-4xl mx-auto">
-            <header class="mb-12">
-                <h1 class="text-3xl font-bold accent mb-2">
-                    kartendsy@dev:~# <span class="text-white">whoami</span>
-                </h1>
-                <p class="dim italic">
-                    // Programmed to build, wired to stay quiet.
-                </p>
-            </header>
+    <body
+        x-data="{ darkMode: false, activeTab: 'proyek' }"
+        :class="darkMode ? 'bg-zinc-950 text-zinc-100' : 'bg-zinc-50 text-zinc-900'"
+        class="antialiased selection:bg-yellow-300 selection:text-black transition-colors duration-300"
+    >
+        <header class="max-w-5xl mx-auto pt-24 px-6 md:px-12">
+            <div class="flex justify-between items-start">
+                <div>
+                    <h1
+                        class="text-5xl md:text-7xl font-black tracking-tight uppercase leading-none"
+                    >
+                        Muhammad<br />Fauzi.
+                    </h1>
+                    <p
+                        class="text-lg md:text-xl font-medium text-zinc-500 mt-4 max-w-md leading-relaxed"
+                    >
+                        Software engineer yang fokus pada performa sistem,
+                        arsitektur kode yang bersih, dan antarmuka web yang
+                        efisien.
+                    </p>
+                </div>
 
-            <section class="mb-12 terminal-border p-6 rounded-lg bg-[#1a1c25]">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <span class="mr-2 text-green-400">●</span> About Me
-                </h2>
-                <p class="leading-relaxed">
-                    I am a programmer who speaks more through code than words.
-                    As an introvert, I find my flow in the quiet space between
-                    logic and execution. I prefer the hum of a server and the
-                    crisp response of a mechanical keyboard over a crowded room.
-                    My focus is on building clean, performant, and maintainable
-                    systems.
-                </p>
-            </section>
-
-            <section class="mb-12">
-                <h2
-                    class="text-xl font-bold mb-6 accent underline decoration-2 underline-offset-8"
+                <button
+                    @click="darkMode = !darkMode"
+                    class="border-2 border-current px-3 py-1 text-xs font-bold uppercase tracking-wider hover:bg-current hover:text-zinc-50 dark:hover:text-zinc-950 transition-colors duration-200 cursor-pointer"
                 >
-                    Skillset.sh
-                </h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
-                    >
-                        <span class="text-orange-400">system:</span> C/C++
+                    <span x-show="!darkMode">Set Dark</span>
+                    <span x-show="darkMode" x-cloak>Set Light</span>
+                </button>
+            </div>
+        </header>
+
+        <nav
+            class="max-w-5xl mx-auto mt-20 px-6 md:px-12 border-b-2 border-zinc-200 dark:border-zinc-800 flex gap-8 text-sm font-bold uppercase tracking-widest pb-3"
+        >
+            <button
+                @click="activeTab = 'proyek'"
+                :class="activeTab === 'proyek' ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600'"
+                class="relative cursor-pointer"
+            >
+                Selected Works
+                <div
+                    x-show="activeTab === 'proyek'"
+                    class="absolute -bottom-[14px] left-0 right-0 h-[2px] bg-current"
+                ></div>
+            </button>
+            <button
+                @click="activeTab = 'tentang'"
+                :class="activeTab === 'tentang' ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600'"
+                class="relative cursor-pointer"
+            >
+                About & Tech
+                <div
+                    x-show="activeTab === 'tentang'"
+                    class="absolute -bottom-[14px] left-0 right-0 h-[2px] bg-current"
+                ></div>
+            </button>
+        </nav>
+
+        <main class="max-w-5xl mx-auto py-12 px-6 md:px-12 min-h-[400px]">
+            <div
+                x-show="activeTab === 'proyek'"
+                x-transition
+                class="divide-y-2 divide-zinc-100 dark:divide-zinc-900"
+            >
+                <div
+                    class="py-8 first:pt-0 group flex flex-col md:flex-row md:items-baseline justify-between gap-4"
+                >
+                    <div class="max-w-xl">
+                        <h3
+                            class="text-2xl font-bold group-hover:underline decoration-2"
+                        >
+                            <a href="#">Segoro Compiler</a>
+                        </h3>
+                        <p
+                            class="text-zinc-500 dark:text-zinc-400 mt-2 text-sm leading-relaxed"
+                        >
+                            Membangun kompilator kustom berbasis LLVM untuk
+                            mengoptimalkan bahasa pemrograman khusus tingkat
+                            rendah. Fokus pada kecepatan parsing dan alokasi
+                            memori yang efisien.
+                        </p>
                     </div>
                     <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
+                        class="text-xs font-bold uppercase tracking-wider text-zinc-400 md:text-right"
                     >
-                        <span class="text-blue-400">backend:</span> Golang
-                    </div>
-                    <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
-                    >
-                        <span class="text-yellow-400">script:</span> Python
-                    </div>
-                    <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
-                    >
-                        <span class="text-purple-400">game:</span> GDScript
-                    </div>
-                    <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
-                    >
-                        <span class="text-pink-400">automation:</span> Ruby/Lua
-                    </div>
-                    <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
-                    >
-                        <span class="text-cyan-400">web:</span> JS/TS
-                    </div>
-                    <div
-                        class="terminal-border p-3 rounded bg-[#1a1c25] hover:border-blue-500 transition-colors"
-                    >
-                        <span class="text-green-400">enterprise:</span> C#
+                        Go / LLVM / Systems — 2026
                     </div>
                 </div>
-            </section>
 
-            <section class="mb-12">
-                <h2 class="text-xl font-bold mb-4 flex items-center">
-                    <span class="mr-2 text-yellow-400">●</span> Projects
-                </h2>
+                <div
+                    class="py-8 group flex flex-col md:flex-row md:items-baseline justify-between gap-4"
+                >
+                    <div class="max-w-xl">
+                        <h3
+                            class="text-2xl font-bold group-hover:underline decoration-2"
+                        >
+                            <a href="#">Oxygen Engine Extensions</a>
+                        </h3>
+                        <p
+                            class="text-zinc-500 dark:text-zinc-400 mt-2 text-sm leading-relaxed"
+                        >
+                            Implementasi arsitektur Entity Component System
+                            (ECS) berperforma tinggi untuk optimalisasi
+                            rendering state pada game engine 2D.
+                        </p>
+                    </div>
+                    <div
+                        class="text-xs font-bold uppercase tracking-wider text-zinc-400 md:text-right"
+                    >
+                        C++ / Game Dev — 2025
+                    </div>
+                </div>
+            </div>
+
+            <div
+                x-show="activeTab === 'tentang'"
+                x-transition
+                x-cloak
+                class="grid grid-cols-1 md:grid-cols-3 gap-8"
+            >
+                <div
+                    class="md:col-span-2 space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed text-base"
+                >
+                    <p>
+                        Saya menyukai pembuatan perkakas (tools) yang
+                        mempermudah hidup developer lain. Sehari-hari bekerja
+                        dekat dengan kernel, konfigurasi sistem berbasis Linux,
+                        dan sesekali merancang protokol jaringan kustom.
+                    </p>
+                    <p>
+                        Pendekatan saya terhadap frontend sama dengan cara saya
+                        memandang sistem backend: **harus cepat, tanpa overhead
+                        yang tidak perlu, dan fungsional**. Itu alasan kenapa
+                        kombinasi Tailwind dan Alpine.js disematkan di situs
+                        ini.
+                    </p>
+                </div>
+
                 <div class="space-y-4">
-                    <div class="group cursor-pointer">
-                        <span
-                            class="dim group-hover:text-white transition-colors"
-                            >>> [project_01.tar.gz]</span
-                        >
-                        <p class="ml-6 text-sm text-gray-500 italic mt-1">
-                            Status: Initializing... (Upcoming high-performance
-                            system tool)
-                        </p>
-                    </div>
-                    <div class="group cursor-pointer">
-                        <span
-                            class="dim group-hover:text-white transition-colors"
-                            >>> [project_02.exe]</span
-                        >
-                        <p class="ml-6 text-sm text-gray-500 italic mt-1">
-                            <img src="https://count.getloli.com/@Kartendsy?name=Kartendsy&theme=booru-koe&padding=7&offset=0&align=top&scale=1&pixelated=1&darkmode=auto"/>
-                        </p>
-                    </div>
+                    <h4
+                        class="text-xs font-bold uppercase tracking-widest text-zinc-400"
+                    >
+                        Core Stack
+                    </h4>
+                    <ul class="text-sm font-medium space-y-1">
+                        <li>Go (Golang)</li>
+                        <li>Rust</li>
+                        <li>C++</li>
+                        <li>Linux Ecosystem (Arch/Artix)</li>
+                        <li>Tailwind CSS & Alpine.js</li>
+                    </ul>
                 </div>
-            </section>
+            </div>
+        </main>
 
-            <footer class="mt-20 border-t border-gray-800 pt-8 text-sm">
-                <div class="flex flex-col md:flex-row justify-between gap-4">
-                    <div>
-                        <p>
-                            Contact:
-                            <a
-                                href="mailto:hello@kartendsy.dev"
-                                class="accent hover:underline"
-                                >sprsupra45@gmail.com</a
-                            >
-                        </p>
-                        <p>
-                            GitHub:
-                            <a
-                                href="https://github.com/Kartendsy"
-                                class="accent hover:underline"
-                                >github.com/kartendsy</a
-                            >
-                        </p>
-                    </div>
-                    <div class="dim">
-                        &copy; 2026 Kartendsy - Built with minimalism.
-                    </div>
-                </div>
-            </footer>
-        </div>
+        <footer
+            class="max-w-5xl mx-auto border-t border-zinc-200 dark:border-zinc-900 py-8 px-6 md:px-12 text-xs text-zinc-400 flex justify-between"
+        >
+            <span>© 2026 — Dibuat dengan manuk.</span>
+            <a
+                href="mailto:email@anda.com"
+                class="hover:underline font-bold text-zinc-600 dark:text-zinc-300"
+                >Hubungi</a
+            >
+        </footer>
+
+        <script
+            defer
+            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
+        ></script>
     </body>
 </html>
