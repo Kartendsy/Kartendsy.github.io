@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Personal Space | Kartendsy</title>
+        <meta name="description" content="Muhammad Fauzi — software engineer focused on system performance, clean code architecture, and efficient web interfaces." />
+        <title>Muhammad Fauzi — Software Engineer</title>
         <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
         <style>
             [x-cloak] {
@@ -12,29 +13,29 @@
         </style>
     </head>
     <body
-       x-data="{ darkMode: localStorage.getItem('dark') === 'true', activeTab: 'proyek' }"
-        x-init="$watch('darkMode', val => localStorage.setItem('dark', val))"
+        x-data="portfolio()"
+        x-init="init()"
         :class="darkMode ? 'bg-zinc-950 text-zinc-100' : 'bg-zinc-50 text-zinc-900'"
         class="antialiased selection:bg-yellow-300 selection:text-black transition-colors duration-300"
     >
-        <header class="max-w-5xl mx-auto pt-24 px-6 md:px-12">
-            <div class="flex justify-between items-start">
+        <header class="max-w-5xl mx-auto pt-20 md:pt-24 px-6 md:px-12">
+            <div class="flex justify-between items-start gap-6">
                 <div>
-                    <h1
-                        class="text-5xl md:text-7xl font-black tracking-tight uppercase leading-none"
-                    >
+                    <h1 class="text-5xl md:text-7xl font-black tracking-tight uppercase leading-none">
                         Muhammad<br />Fauzi.
                     </h1>
-                    <p
-                        class="text-lg md:text-xl font-medium text-zinc-500 mt-4 max-w-md leading-relaxed"
-                    >
+                    <p class="text-lg md:text-xl font-medium text-zinc-500 mt-4 max-w-md leading-relaxed">
                         A software engineer focused on system performance, clean code architecture, and efficient web interfaces.
                     </p>
+                    <div class="mt-6 flex gap-5 text-sm font-bold uppercase tracking-widest">
+                        <a href="https://github.com/Kartendsy" class="underline decoration-2 underline-offset-4 hover:opacity-70">GitHub</a>
+                        <a href="mailto:email@anda.com" class="underline decoration-2 underline-offset-4 hover:opacity-70">Contact</a>
+                    </div>
                 </div>
 
                 <button
                     @click="darkMode = !darkMode"
-                    class="border-2 border-current px-3 py-1 text-xs font-bold uppercase tracking-wider hover:bg-current hover:text-zinc-50 dark:hover:text-zinc-950 transition-colors duration-200 cursor-pointer"
+                    class="shrink-0 border-2 border-current px-3 py-1 text-xs font-bold uppercase tracking-wider hover:bg-current hover:text-zinc-50 dark:hover:text-zinc-950 transition-colors duration-200 cursor-pointer"
                 >
                     <span x-show="!darkMode">Set Dark</span>
                     <span x-show="darkMode" x-cloak>Set Light</span>
@@ -42,81 +43,78 @@
             </div>
         </header>
 
-        <nav
-            class="max-w-5xl mx-auto mt-20 px-6 md:px-12 border-b-2 border-zinc-200 dark:border-zinc-800 flex gap-8 text-sm font-bold uppercase tracking-widest pb-3"
-        >
+        <nav class="max-w-5xl mx-auto mt-16 md:mt-20 px-6 md:px-12 border-b-2 border-zinc-200 dark:border-zinc-800 flex gap-8 text-sm font-bold uppercase tracking-widest pb-3">
             <button
                 @click="activeTab = 'proyek'"
                 :class="activeTab === 'proyek' ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600'"
                 class="relative cursor-pointer"
             >
                 Selected Works
-                <div
-                    x-show="activeTab === 'proyek'"
-                    class="absolute -bottom-[14px] left-0 right-0 h-[2px] bg-current"
-                ></div>
+                <div x-show="activeTab === 'proyek'" class="absolute -bottom-[14px] left-0 right-0 h-[2px] bg-current"></div>
             </button>
             <button
                 @click="activeTab = 'tentang'"
                 :class="activeTab === 'tentang' ? 'text-zinc-900 dark:text-zinc-100' : 'text-zinc-400 hover:text-zinc-600'"
                 class="relative cursor-pointer"
             >
-                About & Tech
-                <div
-                    x-show="activeTab === 'tentang'"
-                    class="absolute -bottom-[14px] left-0 right-0 h-[2px] bg-current"
-                ></div>
+                About &amp; Tech
+                <div x-show="activeTab === 'tentang'" class="absolute -bottom-[14px] left-0 right-0 h-[2px] bg-current"></div>
             </button>
         </nav>
 
-        <main class="max-w-5xl mx-auto py-12 px-6 md:px-12 min-h-[400px]">
-            <div
-                x-show="activeTab === 'proyek'"
-                x-transition
-                class="divide-y-2 divide-zinc-100 dark:divide-zinc-900"
-            >
-                <div
-                    class="py-8 first:pt-0 group flex flex-col md:flex-row md:items-baseline justify-between gap-4"
-                >
-                    <div class="max-w-xl">
-                        <h3
-                            class="text-2xl font-bold group-hover:underline decoration-2"
-                        >
-                            <a href="https://github.com/Kartendsy/VexMC">VexMC</a>
-                        </h3>
-                        <p
-                            class="text-zinc-500 dark:text-zinc-400 mt-2 text-sm leading-relaxed"
-                        >
-                            VexMC — A custom, high-performance Minecraft server implementation built from scratch using Go. It focuses on low-level network architecture, custom TCP packet marshaling, and optimized chunk generation for legacy versions.
-                        </p>
+        <main class="max-w-5xl mx-auto py-10 md:py-12 px-6 md:px-12 min-h-[400px]">
+            <!-- Projects: live from GitHub API, own repos sorted by stars -->
+            <div x-show="activeTab === 'proyek'" x-transition class="divide-y-2 divide-zinc-100 dark:divide-zinc-900">
+                <!-- Loading skeleton -->
+                <template x-if="repoState === 'loading'">
+                    <div>
+                        <template x-for="i in 3" :key="i">
+                            <div class="py-8 first:pt-0 animate-pulse flex flex-col md:flex-row md:items-baseline justify-between gap-4">
+                                <div class="max-w-xl w-full">
+                                    <div class="h-7 w-48 bg-zinc-200 dark:bg-zinc-800"></div>
+                                    <div class="h-4 w-full mt-3 bg-zinc-100 dark:bg-zinc-900"></div>
+                                    <div class="h-4 w-2/3 mt-2 bg-zinc-100 dark:bg-zinc-900"></div>
+                                </div>
+                                <div class="h-4 w-32 bg-zinc-100 dark:bg-zinc-900"></div>
+                            </div>
+                        </template>
                     </div>
-                    <div
-                        class="text-xs font-bold uppercase tracking-wider text-zinc-400 md:text-right"
-                    >
-                        Go / Server / Systems — 2026
-                    </div>
+                </template>
+
+                <!-- Error fallback -->
+                <div x-show="repoState === 'error'" x-cloak class="py-8 first:pt-0">
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-xl">
+                        Could not load live repositories (GitHub API rate limit or network issue).
+                        Browse them directly on
+                        <a href="https://github.com/Kartendsy?tab=repositories" class="font-bold underline decoration-2">GitHub</a>.
+                    </p>
                 </div>
 
-                <div
-                    class="py-8 group flex flex-col md:flex-row md:items-baseline justify-between gap-4"
-                >
-                    <div class="max-w-xl">
-                        <h3
-                            class="text-2xl font-bold group-hover:underline decoration-2"
-                        >
-                            <a href="#">SyfnaMD</a>
-                        </h3>
-                        <p
-                            class="text-zinc-500 dark:text-zinc-400 mt-2 text-sm leading-relaxed"
-                        >
-                            Bot wa yg mudah digunakan dan ringan.
-                        </p>
+                <!-- Repo list -->
+                <template x-if="repoState === 'ready'">
+                    <div>
+                        <template x-for="repo in repos" :key="repo.id">
+                            <div class="py-8 first:pt-0 group flex flex-col md:flex-row md:items-baseline justify-between gap-4">
+                                <div class="max-w-xl">
+                                    <h3 class="text-2xl font-bold group-hover:underline decoration-2">
+                                        <a :href="repo.html_url" x-text="repo.name"></a>
+                                    </h3>
+                                    <p class="text-zinc-500 dark:text-zinc-400 mt-2 text-sm leading-relaxed" x-text="repo.description || 'No description provided.'"></p>
+                                </div>
+                                <div class="text-xs font-bold uppercase tracking-wider text-zinc-400 md:text-right tabular-nums whitespace-nowrap">
+                                    <span x-text="repo.language || 'Misc'"></span>
+                                    <span> / ★ <span x-text="repo.stargazers_count"></span></span>
+                                    <span> — <span x-text="new Date(repo.pushed_at).getFullYear()"></span></span>
+                                </div>
+                            </div>
+                        </template>
                     </div>
-                    <div
-                        class="text-xs font-bold uppercase tracking-wider text-zinc-400 md:text-right"
-                    >
-                        Go / Bot Automation — 2025
-                    </div>
+                </template>
+
+                <div class="pt-8">
+                    <a href="https://github.com/Kartendsy?tab=repositories" class="text-xs font-bold uppercase tracking-widest text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-200">
+                        All repositories →
+                    </a>
                 </div>
             </div>
 
@@ -126,21 +124,17 @@
                 x-cloak
                 class="grid grid-cols-1 md:grid-cols-3 gap-8"
             >
-                <div
-                    class="md:col-span-2 space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed text-base"
-                >
+                <div class="md:col-span-2 space-y-4 text-zinc-600 dark:text-zinc-400 leading-relaxed text-base">
                     <p>
                         I enjoy building tools that make life easier for other developers. My day-to-day work involves the kernel and Linux-based system configurations, alongside the occasional design of custom network protocols.
                     </p>
                     <p>
-                       My approach to the frontend mirrors how I view backend systems: **fast, free of unnecessary overhead, and functional**. That is why this site uses a combination of Tailwind and Alpine.js.
+                        My approach to the frontend mirrors how I view backend systems: <strong class="text-zinc-900 dark:text-zinc-100">fast, free of unnecessary overhead, and functional</strong>. That is why this site uses a combination of Tailwind and Alpine.js.
                     </p>
                 </div>
 
                 <div class="space-y-4">
-                    <h4
-                        class="text-xs font-bold uppercase tracking-widest text-zinc-400"
-                    >
+                    <h4 class="text-xs font-bold uppercase tracking-widest text-zinc-400">
                         Core Stack
                     </h4>
                     <ul class="text-sm font-medium space-y-1">
@@ -148,26 +142,42 @@
                         <li>Rust</li>
                         <li>C++</li>
                         <li>Linux Ecosystem (Arch/Artix)</li>
-                        <li>Tailwind CSS & Alpine.js</li>
+                        <li>Tailwind CSS &amp; Alpine.js</li>
                     </ul>
                 </div>
             </div>
         </main>
 
-        <footer
-            class="max-w-5xl mx-auto border-t border-zinc-200 dark:border-zinc-900 py-8 px-6 md:px-12 text-xs text-zinc-400 flex justify-between"
-        >
-            <span>© 2026 — Dibuat dengan manuk.</span>
-            <a
-                href="mailto:email@anda.com"
-                class="hover:underline font-bold text-zinc-600 dark:text-zinc-300"
-                >Hubungi</a
-            >
+        <footer class="max-w-5xl mx-auto border-t border-zinc-200 dark:border-zinc-900 py-8 px-6 md:px-12 text-xs text-zinc-400 flex justify-between">
+            <span>© 2026 — Built with manuk.</span>
+            <a href="mailto:email@anda.com" class="hover:underline font-bold text-zinc-600 dark:text-zinc-300">Contact</a>
         </footer>
 
-        <script
-            defer
-            src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"
-        ></script>
+        <script>
+            function portfolio() {
+                return {
+                    darkMode: localStorage.getItem("dark") === "true",
+                    activeTab: "proyek",
+                    repos: [],
+                    repoState: "loading",
+                    init() {
+                        this.$watch("darkMode", (val) => localStorage.setItem("dark", val));
+                        fetch("https://api.github.com/users/Kartendsy/repos?sort=stars&direction=desc&per_page=6")
+                            .then((res) => {
+                                if (!res.ok) throw new Error("GitHub API error: " + res.status);
+                                return res.json();
+                            })
+                            .then((data) => {
+                                this.repos = data.filter((r) => !r.fork).slice(0, 6);
+                                this.repoState = "ready";
+                            })
+                            .catch(() => {
+                                this.repoState = "error";
+                            });
+                    },
+                };
+            }
+        </script>
+        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     </body>
 </html>
